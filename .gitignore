@@ -7,6 +7,6 @@
 *.~pas
 *.~dfm
 
-vcl/ConcurrentBleConnections.dsk
+vcl/WiFiSnifferConsole.dsk
 *.ncb
 *.user
