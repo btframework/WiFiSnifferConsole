@@ -41,7 +41,7 @@ constructor TSnifferThread.Create;
 begin
   inherited Create;
 
-  WriteLn('Changin synchronization method');
+  WriteLn('Changing synchronization method');
   TwclMessageBroadcaster.SetSyncMethod(skApc);
 
   WriteLn('Preparing components');
