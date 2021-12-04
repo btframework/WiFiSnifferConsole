@@ -1,0 +1,12 @@
+/**/bin
+/**/obj
+/**/build
+/**/lib
+
+*.suo
+*.~pas
+*.~dfm
+
+vcl/ConcurrentBleConnections.dsk
+*.ncb
+*.user

@@ -1,0 +1,103 @@
+program WiFiSnifferConsole;
+
+{$APPTYPE CONSOLE}
+
+uses
+  wclMessaging,
+  wclThread,
+  wclWiFi,
+  wclErrors,
+  Sniffer in 'Sniffer.pas';
+
+type
+  TSnifferThread = class(TwclThread)
+  private
+    FClient: TwclWiFiClient;
+    FSniffer: TwclWiFiSniffer;
+
+    procedure ClientAfterOpen(Sender: TObject);
+    procedure ClientBeforeClose(Sender: TOBject);
+
+    procedure SnifferAfterOpen(Sender: TObject);
+    procedure SnifferBeforeClose(Sender: TOBject);
+    procedure SnifferRawFrameReceived(Sender: TObject; const Buffer: Pointer;
+      const Size: Cardinal);
+
+  protected
+    function OnInitialize: Boolean; override;
+    //procedure OnTerminate; override;
+
+  public
+    constructor Create; override;
+    destructor Destroy; override;
+  end;
+
+procedure TSnifferThread.ClientAfterOpen(Sender: TObject);
+begin
+  WriteLn('WiFi client opened');
+end;
+
+procedure TSnifferThread.ClientBeforeClose(Sender: TOBject);
+begin
+  WriteLn('WiFi client is closing');
+end;  
+
+constructor TSnifferThread.Create;
+begin
+  inherited Create;
+
+  WriteLn('Preparing components');
+
+  FClient := TwclWiFiClient.Create(nil);
+  FClient.AfterOpen := ClientAfterOpen;
+  FClient.BeforeClose := ClientBeforeClose;
+
+  FSniffer := TwclWiFiSniffer.Create(nil);
+  FSniffer.AfterOpen := SnifferAfterOpen;
+  FSniffer.BeforeClose := SnifferBeforeClose;
+  FSniffer.OnRawFrameReceived := SnifferRawFrameReceived;
+end;
+
+destructor TSnifferThread.Destroy;
+begin
+  WriteLn('Releasing components');
+  
+  FSniffer.Free;
+  FClient.Free;
+
+  inherited;
+end;
+
+function TSnifferThread.OnInitialize: Boolean;
+var
+  Res: Boolean;
+begin
+  (*WriteLn('Preparing WiFi sniffer');
+
+
+
+  WriteLn('Starting WiFi sniffer');
+  Res := FSniffer.Open()*)
+end;
+
+var
+  Sniffer: TSnifferThread;
+
+begin
+  // Change synchronization method.
+  TwclMessageBroadcaster.SetSyncMethod(skApc);
+
+  WriteLn('Starting sniffer');
+
+  Sniffer := TSnifferThread.Create;
+  if Sniffer.Run <> WCL_E_SUCCESS then
+    WriteLn('Start sniffer failed');
+
+  WriteLn('Press ENTER to terminate.');
+  ReadLn;
+
+  if Sniffer.Running then
+    Sniffer.Terminate;
+
+  Sniffer.Free;
+end.
