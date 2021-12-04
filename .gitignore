@@ -6,6 +6,7 @@
 *.suo
 *.~pas
 *.~dfm
+*.~dpr
 
 vcl/WiFiSnifferConsole.dsk
 *.ncb
