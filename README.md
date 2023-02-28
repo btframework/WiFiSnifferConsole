@@ -8,4 +8,4 @@ The demo shows how to use WiFi sniffer in console or service applications. Also 
 
 You can download **WiFi Framework** on our site by this link: https://www.btframework.com/wififramework.htm
 
-Should you have any questions please contact us: https://www.btframework.com/contacts.htm
+Should you have any questions please contact us at support@btframework.com
