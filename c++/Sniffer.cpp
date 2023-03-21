@@ -100,11 +100,11 @@ bool CSnifferThread::OnInitialize()
 void CSnifferThread::OnTerminate()
 {
 	WriteLn("Stopping WiFi Sniffer");
-	if (FSniffer->GetActive())
+	if (FSniffer->Active)
 		FSniffer->Close();
 	
 	WriteLn("Closing WiFi Client");
-	if (FClient->GetActive())
+	if (FClient->Active)
 		FClient->Close();
 }
 
@@ -142,7 +142,7 @@ void CSnifferThread::ClientBeforeClose(void* Sender)
 {
 	WriteLn("WiFi client is closing");
 	
-	if (FSniffer->GetActive())
+	if (FSniffer->Active)
 	{
 		WriteLn("Closing WiFi sniffer");
 		int Res = FSniffer->Close();
